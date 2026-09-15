@@ -1,0 +1,25 @@
+.brand {
+  font: var(--mat-sys-title-medium);
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  margin-left: 2rem;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.75;
+    font: var(--mat-sys-label-large);
+  }
+
+  a:hover {
+    opacity: 1;
+  }
+}
+
+.nav__link--active {
+  opacity: 1;
+  text-decoration: underline;
+}

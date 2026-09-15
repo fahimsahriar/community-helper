@@ -1,0 +1,78 @@
+.page {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.page__header {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+
+  h1 {
+    margin: 0;
+    font: var(--mat-sys-headline-medium);
+  }
+}
+
+.page__subtitle {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+
+  code {
+    padding: 0.1rem 0.35rem;
+    border-radius: var(--mat-sys-corner-extra-small);
+    background-color: var(--mat-sys-surface-container-high);
+  }
+}
+
+.status--connected {
+  color: var(--mat-sys-primary);
+}
+
+.search {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.search__field {
+  flex: 1 1 20rem;
+}
+
+.job {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  // Angular collapses inter-element whitespace, so space these explicitly.
+  gap: 0.35rem;
+  margin: 0;
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+
+  code {
+    padding: 0.1rem 0.35rem;
+    border-radius: var(--mat-sys-corner-extra-small);
+    background-color: var(--mat-sys-surface-container-high);
+  }
+}
+
+.page__error {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--mat-sys-corner-small);
+  background-color: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+}

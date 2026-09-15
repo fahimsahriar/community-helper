@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CommunityHelper.API/CommunityHelper.API.csproj" />
+    <Project Path="src/CommunityHelper.Application/CommunityHelper.Application.csproj" />
+    <Project Path="src/CommunityHelper.Domain/CommunityHelper.Domain.csproj" />
+    <Project Path="src/CommunityHelper.Infrastructure/CommunityHelper.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CommunityHelper.API.IntegrationTests/CommunityHelper.API.IntegrationTests.csproj" />
+    <Project Path="tests/CommunityHelper.Application.Tests/CommunityHelper.Application.Tests.csproj" />
+    <Project Path="tests/CommunityHelper.Domain.Tests/CommunityHelper.Domain.Tests.csproj" />
+    <Project Path="tests/CommunityHelper.Infrastructure.Tests/CommunityHelper.Infrastructure.Tests.csproj" />
+  </Folder>
+</Solution>

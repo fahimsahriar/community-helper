@@ -1,0 +1,37 @@
+<section class="page">
+  <header class="page__header">
+    <h1>Volunteering opportunities</h1>
+    <p class="page__subtitle">
+      Fetches <code>GET /api/opportunities</code> from the CommunityHelper API.
+    </p>
+
+    <button
+      matButton="filled"
+      type="button"
+      data-testid="load-button"
+      [disabled]="loading()"
+      (click)="loadOpportunities()"
+    >
+      <mat-icon>cloud_download</mat-icon>
+      {{ hasLoaded() ? 'Reload opportunities' : 'Load opportunities' }}
+    </button>
+  </header>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" data-testid="loading-bar" />
+  }
+
+  @if (error(); as message) {
+    <p class="page__error" role="alert" data-testid="error-message">{{ message }}</p>
+  }
+
+  @if (hasLoaded()) {
+    @if (opportunities().length > 0) {
+      <app-opportunity-list [opportunities]="opportunities()" />
+    } @else {
+      <p data-testid="empty-message">No opportunities have been published yet.</p>
+    }
+  } @else if (!loading() && !error()) {
+    <p data-testid="idle-message">Press the button to call the API.</p>
+  }
+</section>

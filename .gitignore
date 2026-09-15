@@ -1,0 +1,184 @@
+# =============================================================================
+# CommunityHelper — Monorepo .gitignore
+# Covers: Angular, ASP.NET Core, Flutter, and general tooling
+# =============================================================================
+
+
+# =============================================================================
+# General
+# =============================================================================
+
+# Environment and secrets — NEVER commit these
+.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# Editor: JetBrains (Rider, WebStorm, etc.)
+.idea/
+*.iml
+
+# Editor: VSCode (keep .vscode/extensions.json and .vscode/settings.json if team-shared)
+# Uncomment below to ignore all VSCode files:
+# .vscode/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS temp files
+*.tmp
+*.temp
+
+
+# =============================================================================
+# Angular (frontend/)
+# =============================================================================
+
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.sass-cache/
+frontend/connect.lock
+frontend/coverage/
+frontend/.nyc_output/
+
+# Angular cache (v13+)
+frontend/.angular/cache/
+
+# Playwright test results
+frontend/test-results/
+frontend/playwright-report/
+
+
+# =============================================================================
+# ASP.NET Core (backend/)
+# =============================================================================
+
+# Build output
+backend/**/bin/
+backend/**/obj/
+
+# Visual Studio
+backend/.vs/
+backend/**/*.user
+backend/**/*.suo
+backend/**/*.userosscache
+backend/**/*.sln.docstates
+
+# Rider
+backend/**/.idea/
+backend/**/*.DotSettings.user
+
+# NuGet
+backend/**/packages/
+backend/**/*.nupkg
+backend/**/*.snupkg
+!backend/**/packages/build/
+backend/**/project.lock.json
+backend/**/project.fragment.lock.json
+backend/**/artifacts/
+
+# Test results
+backend/**/TestResults/
+backend/**/coverage/
+
+# Entity Framework
+# Migrations are committed — do NOT ignore them
+# Ignore the EF design-time compiled files
+backend/**/*.ef.db
+backend/**/*.ef-shm
+backend/**/*.ef-wal
+
+# Local development settings
+# WARNING: appsettings.Development.json may contain local secrets (connection strings, etc.)
+# It is gitignored here by default. Use user-secrets or environment variables instead.
+backend/**/appsettings.Development.json
+backend/**/appsettings.Local.json
+
+# Publish output
+backend/**/publish/
+
+
+# =============================================================================
+# Flutter (mobile/)
+# =============================================================================
+
+# Dart tool cache
+mobile/.dart_tool/
+mobile/.packages
+
+# Flutter build output
+mobile/build/
+
+# Flutter plugin registrant files (auto-generated)
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+
+# Dart/Flutter generated files
+mobile/**/*.g.dart
+mobile/**/*.freezed.dart
+mobile/**/*.mocks.dart
+
+# Note: pubspec.lock SHOULD be committed for application packages
+# (it ensures reproducible builds). It is NOT ignored here intentionally.
+# Uncomment below only for library packages:
+# mobile/pubspec.lock
+
+# iOS
+mobile/ios/Pods/
+mobile/ios/.symlinks/
+mobile/ios/Flutter/Flutter.framework
+mobile/ios/Flutter/Flutter.podspec
+mobile/ios/Flutter/Generated.xcconfig
+mobile/ios/Flutter/app.flx
+mobile/ios/Flutter/app.zip
+mobile/ios/Flutter/flutter_assets/
+mobile/ios/ServiceDefinitions.json
+mobile/ios/Runner/GeneratedPluginRegistrant.*
+
+# Android
+mobile/android/.gradle/
+mobile/android/captures/
+mobile/android/gradlew
+mobile/android/gradlew.bat
+mobile/android/local.properties
+mobile/android/**/GeneratedPluginRegistrant.java
+mobile/android/key.properties
+
+# macOS
+mobile/macos/Flutter/GeneratedPluginRegistrant.swift
+mobile/macos/Flutter/Flutter-Debug.xcconfig
+mobile/macos/Flutter/Flutter-Release.xcconfig
+
+# Web
+mobile/web/
+
+# Dart coverage
+mobile/coverage/
+
+
+# =============================================================================
+# Scripts & CI
+# =============================================================================
+
+scripts/*.env
+scripts/*.secret

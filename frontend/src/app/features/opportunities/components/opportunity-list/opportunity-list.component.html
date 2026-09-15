@@ -1,0 +1,29 @@
+<ul class="opportunity-list" data-testid="opportunity-list">
+  @for (opportunity of opportunities(); track opportunity.id) {
+    <li>
+      <mat-card appearance="outlined" class="opportunity-card">
+        <mat-card-header>
+          <mat-card-title data-testid="opportunity-title">{{ opportunity.title }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ opportunity.startsAtUtc | date: 'medium' }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ opportunity.description }}</p>
+          <mat-chip-set aria-label="Opportunity details">
+            @if (opportunity.isRemote) {
+              <mat-chip>Remote</mat-chip>
+            } @else {
+              <mat-chip>
+                <mat-icon matChipAvatar>place</mat-icon>
+                {{ opportunity.location }}
+              </mat-chip>
+              <mat-chip>On site</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-content>
+      </mat-card>
+    </li>
+  }
+</ul>

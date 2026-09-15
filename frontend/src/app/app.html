@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <span class="brand">CommunityHelper</span>
+
+  <nav class="nav">
+    <a routerLink="/opportunities" routerLinkActive="nav__link--active" [routerLinkActiveOptions]="{ exact: true }">
+      Browse
+    </a>
+    <a routerLink="/opportunities/search" routerLinkActive="nav__link--active">Search</a>
+  </nav>
+</mat-toolbar>
+
+<main>
+  <router-outlet />
+</main>

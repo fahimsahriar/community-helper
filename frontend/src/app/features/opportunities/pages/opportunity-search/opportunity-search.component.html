@@ -1,0 +1,66 @@
+<section class="page">
+  <header class="page__header">
+    <h1>Search opportunities</h1>
+    <p class="page__subtitle">
+      The search is submitted with <code>POST /api/jobs/opportunity-search</code> and answered
+      on the WebSocket connection.
+    </p>
+
+    <p class="status" [class]="'status--' + realtime.status()" data-testid="socket-status">
+      <mat-icon>{{ realtime.status() === 'connected' ? 'cloud_done' : 'cloud_off' }}</mat-icon>
+      <span>Socket: {{ realtime.status() }}</span>
+      @if (realtime.connectionId(); as id) {
+        <code data-testid="connection-id">{{ id }}</code>
+      }
+    </p>
+  </header>
+
+  <form class="search" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" class="search__field">
+      <mat-label>Search term</mat-label>
+      <input
+        matInput
+        type="search"
+        placeholder="e.g. tutoring"
+        data-testid="search-input"
+        formControlName="query"
+      />
+      <mat-hint>Leave blank to return everything.</mat-hint>
+    </mat-form-field>
+
+    <button matButton="filled" type="submit" data-testid="search-button" [disabled]="!canSubmit()">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+  </form>
+
+  @if (busy()) {
+    <mat-progress-bar mode="indeterminate" data-testid="loading-bar" />
+  }
+
+  @if (jobId(); as id) {
+    <p class="job" data-testid="job-status">
+      <span>Job</span>
+      <code>{{ id }}</code>
+      <span>
+        @switch (phase()) {
+          @case ('submitting') { accepted — waiting for the worker }
+          @case ('running') { running on the server }
+          @case ('done') { completed }
+        }
+      </span>
+    </p>
+  }
+
+  @if (error(); as message) {
+    <p class="page__error" role="alert" data-testid="error-message">{{ message }}</p>
+  }
+
+  @if (phase() === 'done') {
+    @if (results().length > 0) {
+      <app-opportunity-list [opportunities]="results()" />
+    } @else {
+      <p data-testid="empty-message">Nothing matched that search.</p>
+    }
+  }
+</section>
