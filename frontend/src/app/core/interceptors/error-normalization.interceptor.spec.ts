@@ -2,7 +2,7 @@ import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { errorNormalizationInterceptor } from './error-normalization.interceptor';
+import { errorNormalizationInterceptor, getHttpStatus } from './error-normalization.interceptor';
 
 describe('errorNormalizationInterceptor', () => {
   let http: HttpClient;
@@ -58,5 +58,18 @@ describe('errorNormalizationInterceptor', () => {
   it('falls back to the status code when the body is not Problem Details', async () => {
     const message = await messageFor('plain text', 500);
     expect(message).toBe('Request failed with status 500.');
+  });
+
+  it('preserves the HTTP status on the normalized error', async () => {
+    const status = await new Promise<number | null>((resolve) => {
+      http.get('/test').subscribe({ error: (err: Error) => resolve(getHttpStatus(err)) });
+      httpMock.expectOne('/test').flush({ title: 'Not found.' }, { status: 404, statusText: 'Not Found' });
+    });
+    expect(status).toBe(404);
+  });
+
+  it('returns null for errors without an HTTP status', () => {
+    expect(getHttpStatus(new Error('boom'))).toBeNull();
+    expect(getHttpStatus(null)).toBeNull();
   });
 });

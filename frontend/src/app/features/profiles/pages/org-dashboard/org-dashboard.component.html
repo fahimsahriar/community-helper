@@ -1,0 +1,44 @@
+<section class="page">
+  <header class="page__header">
+    <h1 data-testid="org-dashboard-title">Organization dashboard</h1>
+    <p class="page__subtitle">Manage the organization profile volunteers see when they apply.</p>
+  </header>
+
+  @if (organization(); as org) {
+    <mat-card class="status-card">
+      <mat-card-content class="status-card__content">
+        <span class="status-card__name" data-testid="org-current-name">{{ org.name }}</span>
+        @if (org.verifiedAtUtc === null) {
+          <mat-chip highlighted data-testid="org-pending-badge">Pending verification</mat-chip>
+        } @else {
+          <mat-chip highlighted data-testid="org-verified-badge">Verified</mat-chip>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" data-testid="org-loading" />
+  }
+
+  @if (error(); as message) {
+    <p class="page__error" role="alert" data-testid="org-error">{{ message }}</p>
+  }
+
+  @if (saved(); as message) {
+    <p class="page__saved" role="status" data-testid="org-saved">{{ message }}</p>
+  }
+
+  @if (!loading() && !error()) {
+    @if (needsSetup()) {
+      <h2 data-testid="org-setup-heading">Register your organization</h2>
+    } @else {
+      <h2 data-testid="org-edit-heading">Edit your organization</h2>
+    }
+    <app-organization-form
+      [organization]="organization()"
+      [saving]="saving()"
+      (save)="onSave($event)"
+    />
+  }
+</section>

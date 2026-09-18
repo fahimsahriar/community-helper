@@ -1,0 +1,90 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Skills (comma separated)</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="skillsText"
+      placeholder="teaching, first-aid, driving"
+      autocomplete="off"
+      data-testid="volunteer-skills"
+    />
+    @if (form.controls.skillsText.touched && form.controls.skillsText.invalid) {
+      <mat-error data-testid="volunteer-skills-error">Add at least one skill.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Availability</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="availability"
+      placeholder="Weekends, evenings"
+      autocomplete="off"
+      data-testid="volunteer-availability"
+    />
+    @if (form.controls.availability.touched && form.controls.availability.invalid) {
+      <mat-error data-testid="volunteer-availability-error">Tell us when you can help.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Causes (comma separated)</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="causesText"
+      placeholder="education, environment"
+      autocomplete="off"
+      data-testid="volunteer-causes"
+    />
+    @if (form.controls.causesText.touched && form.controls.causesText.invalid) {
+      <mat-error data-testid="volunteer-causes-error">Add at least one cause.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Location</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="location"
+      placeholder="Dhaka"
+      autocomplete="address-level2"
+      data-testid="volunteer-location"
+    />
+    @if (form.controls.location.touched && form.controls.location.invalid) {
+      <mat-error data-testid="volunteer-location-error">Add your location.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Bio</mat-label>
+    <textarea
+      matInput
+      rows="3"
+      formControlName="bio"
+      placeholder="A short intro organizations can read."
+      data-testid="volunteer-bio"
+    ></textarea>
+    @if (form.controls.bio.touched && form.controls.bio.invalid) {
+      <mat-error data-testid="volunteer-bio-error">Add a short bio.</mat-error>
+    }
+  </mat-form-field>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="submit"
+    class="full-width"
+    [disabled]="saving()"
+    data-testid="volunteer-save"
+  >
+    @if (saving()) {
+      <mat-spinner diameter="20" data-testid="volunteer-saving" />
+    } @else {
+      {{ profile() ? 'Save changes' : 'Create profile' }}
+    }
+  </button>
+</form>

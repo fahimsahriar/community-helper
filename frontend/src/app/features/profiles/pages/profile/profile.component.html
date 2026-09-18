@@ -1,0 +1,45 @@
+<section class="page">
+  <header class="page__header">
+    <h1 data-testid="profile-title">My volunteer profile</h1>
+    <p class="page__subtitle">
+      Skills, availability, causes, and location organizations use to vet and match you.
+    </p>
+  </header>
+
+  <mat-card class="hours-card" data-testid="profile-hours-placeholder">
+    <mat-card-header>
+      <mat-card-title>Hours summary</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="hours-card__text">
+        Volunteer hours tracking arrives in Phase 3. Your verified total will appear here.
+      </p>
+      <p class="hours-card__total" data-testid="profile-hours-total">0 hours verified</p>
+    </mat-card-content>
+  </mat-card>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" data-testid="profile-loading" />
+  }
+
+  @if (error(); as message) {
+    <p class="page__error" role="alert" data-testid="profile-error">{{ message }}</p>
+  }
+
+  @if (saved(); as message) {
+    <p class="page__saved" role="status" data-testid="profile-saved">{{ message }}</p>
+  }
+
+  @if (!loading() && !error()) {
+    @if (needsSetup()) {
+      <h2 data-testid="profile-setup-heading">Complete your profile</h2>
+    } @else {
+      <h2 data-testid="profile-edit-heading">Edit your profile</h2>
+    }
+    <app-volunteer-profile-form
+      [profile]="profile()"
+      [saving]="saving()"
+      (save)="onSave($event)"
+    />
+  }
+</section>

@@ -1,0 +1,53 @@
+.page {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.page__header {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+
+  h1 {
+    margin: 0;
+    font: var(--mat-sys-headline-medium);
+  }
+}
+
+.page__subtitle {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.page__error {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--mat-sys-corner-small);
+  background-color: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+}
+
+.page__saved {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--mat-sys-corner-small);
+  background-color: var(--mat-sys-tertiary-container, #d0e8d0);
+  color: var(--mat-sys-on-tertiary-container, #1a3a1a);
+}
+
+.hours-card__text {
+  margin: 0 0 0.5rem;
+}
+
+.hours-card__total {
+  margin: 0;
+  font-weight: 600;
+}
+
+h2 {
+  margin: 0;
+  font: var(--mat-sys-headline-small);
+}

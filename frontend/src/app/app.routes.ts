@@ -7,6 +7,11 @@ export const routes: Routes = [
     loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
+    path: '',
+    loadChildren: () =>
+      import('./features/profiles/profiles.routes').then((m) => m.PROFILES_ROUTES),
+  },
+  {
     path: 'opportunities',
     loadChildren: () =>
       import('./features/opportunities/opportunities.routes').then((m) => m.OPPORTUNITIES_ROUTES),

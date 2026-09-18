@@ -1,0 +1,90 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Organization name</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="name"
+      placeholder="River Cleaners"
+      autocomplete="organization"
+      data-testid="org-name"
+    />
+    @if (form.controls.name.touched && form.controls.name.invalid) {
+      <mat-error data-testid="org-name-error">Add the organization name.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Organization type</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="type"
+      placeholder="Nonprofit"
+      autocomplete="off"
+      data-testid="org-type"
+    />
+    @if (form.controls.type.touched && form.controls.type.invalid) {
+      <mat-error data-testid="org-type-error">Add the organization type.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Cause tags (comma separated)</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="causeTagsText"
+      placeholder="environment, education"
+      autocomplete="off"
+      data-testid="org-cause-tags"
+    />
+    @if (form.controls.causeTagsText.touched && form.controls.causeTagsText.invalid) {
+      <mat-error data-testid="org-cause-tags-error">Add at least one cause tag.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Location</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="location"
+      placeholder="Dhaka"
+      autocomplete="address-level2"
+      data-testid="org-location"
+    />
+    @if (form.controls.location.touched && form.controls.location.invalid) {
+      <mat-error data-testid="org-location-error">Add the location.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      rows="4"
+      formControlName="description"
+      placeholder="What does the organization do?"
+      data-testid="org-description"
+    ></textarea>
+    @if (form.controls.description.touched && form.controls.description.invalid) {
+      <mat-error data-testid="org-description-error">Add a short description.</mat-error>
+    }
+  </mat-form-field>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="submit"
+    class="full-width"
+    [disabled]="saving()"
+    data-testid="org-save"
+  >
+    @if (saving()) {
+      <mat-spinner diameter="20" data-testid="org-saving" />
+    } @else {
+      {{ organization() ? 'Save changes' : 'Register organization' }}
+    }
+  </button>
+</form>

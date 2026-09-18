@@ -1,0 +1,12 @@
+.full-width {
+  width: 100%;
+}
+
+mat-form-field + mat-form-field {
+  margin-top: 0.25rem;
+}
+
+.error {
+  color: var(--mat-sys-error, #ba1a1a);
+  margin: 0.5rem 0;
+}
