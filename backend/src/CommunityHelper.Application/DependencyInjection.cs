@@ -1,5 +1,6 @@
 using System.Reflection;
 using CommunityHelper.Application.Common.Behaviours;
+using CommunityHelper.Application.Features.Auth;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ public static class DependencyInjection
         var assembly = Assembly.GetExecutingAssembly();
 
         services.AddValidatorsFromAssembly(assembly);
+
+        services.AddScoped<AuthTokenIssuer>();
 
         services.AddMediatR(cfg =>
         {

@@ -2,7 +2,6 @@ using System.Text.Json;
 using CommunityHelper.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using ValidationException = FluentValidation.ValidationException;
-
 namespace CommunityHelper.API.Middleware;
 
 /// <summary>
@@ -80,6 +79,14 @@ public class ExceptionHandlingMiddleware(
             Title = "Resource not found.",
             Detail = notFound.Message,
             Type = "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+        },
+
+        AuthenticationException authentication => new ProblemDetails
+        {
+            Status = StatusCodes.Status401Unauthorized,
+            Title = "Unauthorized.",
+            Detail = authentication.Message,
+            Type = "https://tools.ietf.org/html/rfc9110#section-15.5.2",
         },
 
         UnauthorizedAccessException => new ProblemDetails

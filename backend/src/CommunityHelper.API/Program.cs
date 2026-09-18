@@ -1,7 +1,14 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.RateLimiting;
 using CommunityHelper.API.Middleware;
 using CommunityHelper.API.Realtime;
 using CommunityHelper.Application;
 using CommunityHelper.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +27,47 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+var jwtSection = builder.Configuration.GetSection("Jwt");
+var jwtSecret = jwtSection.GetValue<string>("Secret") ?? string.Empty;
+if (jwtSecret.Length < 32)
+{
+    throw new InvalidOperationException(
+        "Jwt:Secret must be at least 32 characters. Set it via configuration or the Jwt__Secret environment variable.");
+}
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwtSection.GetValue<string>("Issuer"),
+            ValidateAudience = true,
+            ValidAudience = jwtSection.GetValue<string>("Audience"),
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromMinutes(1),
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+            NameClaimType = JwtRegisteredClaimNames.Sub,
+            RoleClaimType = ClaimTypes.Role,
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("auth", limiter =>
+    {
+        limiter.PermitLimit = 100;
+        limiter.Window = TimeSpan.FromMinutes(1);
+        limiter.QueueLimit = 0;
+    });
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
+
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -49,6 +95,9 @@ foreach (var origin in allowedOrigins)
 }
 
 app.UseWebSockets(webSocketOptions);
+
+app.UseRateLimiter();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
