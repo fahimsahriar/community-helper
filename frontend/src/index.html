@@ -5,6 +5,15 @@
   <title>ComunifyWeb</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Phase 1 CSP: same-origin scripts; inline styles allowed for Angular
+       Material; fonts from Google Fonts; API/WS same-origin or local dev.
+       Angular auto-escapes interpolations, so no 'unsafe-inline' scripts.
+       NOTE: frame-ancestors is intentionally absent — it is ignored in
+       <meta> and must be sent as an HTTP header in production. -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' http://localhost:* https://localhost:* ws://localhost:* wss://localhost:*; object-src 'none'; base-uri 'self'"
+  />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

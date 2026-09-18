@@ -1,3 +1,5 @@
+using CommunityHelper.Domain.Common;
+
 namespace CommunityHelper.Domain.Entities;
 
 /// <summary>
@@ -82,7 +84,7 @@ public sealed class Organization
         }
 
         var normalizedTags = causeTags
-            .Select(t => t.Trim())
+            .Select(t => InputSanitizer.Clean(t))
             .Where(t => t.Length > 0)
             .ToList();
 
@@ -101,11 +103,11 @@ public sealed class Organization
             throw new ArgumentException("Description is required.", nameof(description));
         }
 
-        Name = name.Trim();
-        Type = type.Trim();
+        Name = InputSanitizer.Clean(name);
+        Type = InputSanitizer.Clean(type);
         CauseTags = normalizedTags;
-        Location = location.Trim();
-        Description = description.Trim();
+        Location = InputSanitizer.Clean(location);
+        Description = InputSanitizer.CleanMultiline(description);
     }
 
     /// <summary>

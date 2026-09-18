@@ -1,3 +1,5 @@
+using CommunityHelper.Domain.Common;
+
 namespace CommunityHelper.Domain.Entities;
 
 /// <summary>
@@ -85,10 +87,10 @@ public sealed class VolunteerProfile
         }
 
         Skills = normalizedSkills;
-        Availability = availability.Trim();
+        Availability = InputSanitizer.Clean(availability);
         Causes = normalizedCauses;
-        Location = location.Trim();
-        Bio = bio.Trim();
+        Location = InputSanitizer.Clean(location);
+        Bio = InputSanitizer.CleanMultiline(bio);
     }
 
     /// <summary>
@@ -107,7 +109,7 @@ public sealed class VolunteerProfile
     private static List<string> NormalizeList(IEnumerable<string> values, string paramName)
     {
         var list = values
-            .Select(v => v.Trim())
+            .Select(v => InputSanitizer.Clean(v))
             .Where(v => v.Length > 0)
             .ToList();
 

@@ -1,3 +1,5 @@
+using CommunityHelper.Domain.Common;
+
 namespace CommunityHelper.Domain.Entities;
 
 /// <summary>
@@ -54,7 +56,7 @@ public sealed class User
 
         return new User(
             id ?? string.Empty,
-            email.Trim().ToLowerInvariant(),
+            InputSanitizer.Clean(email).ToLowerInvariant(),
             passwordHash,
             role,
             DateTime.UtcNow,

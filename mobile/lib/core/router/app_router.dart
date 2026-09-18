@@ -15,27 +15,40 @@ import '../../features/profile/presentation/screens/org_profile_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../injection.dart';
 
+/// Pure deep-link policy, unit-tested in `test/unit/router_redirect_test.dart`.
+///
+/// - Unauthenticated users can only stay on `/login` and `/register`.
+/// - Authenticated users are bounced off those public routes (and `/`)
+///   to their role home: `/org` for org admins, `/profile` otherwise.
+String? resolveAuthRedirect({
+  required AuthState authState,
+  required String location,
+}) {
+  const public = ['/login', '/register'];
+  final user = switch (authState) {
+    AuthAuthenticated(:final user) => user,
+    _ => null,
+  };
+
+  if (user == null) {
+    return public.contains(location) ? null : '/login';
+  }
+  if (location == '/' || public.contains(location)) {
+    return user.role == AppRoles.orgAdmin ? '/org' : '/profile';
+  }
+  return null;
+}
+
 /// Central GoRouter. Unauthenticated users are redirected to `/login`;
-/// authenticated users hitting `/login`/`/register` go to `/`.
+/// authenticated users hitting `/login`/`/register` go to their role home.
 GoRouter createRouter(AuthBloc authBloc) {
   return GoRouter(
     initialLocation: '/login',
     refreshListenable: AuthStateListenable(authBloc),
-    redirect: (context, state) {
-      final authState = authBloc.state;
-      final isAuthed = authState is AuthAuthenticated;
-      final loc = state.matchedLocation;
-
-      const public = ['/login', '/register'];
-      if (!isAuthed && !public.contains(loc)) {
-        return '/login';
-      }
-      if (isAuthed && public.contains(loc)) {
-        final user = (authState as AuthAuthenticated).user;
-        return user.role == AppRoles.orgAdmin ? '/org' : '/profile';
-      }
-      return null;
-    },
+    redirect: (context, state) => resolveAuthRedirect(
+      authState: authBloc.state,
+      location: state.matchedLocation,
+    ),
     routes: [
       GoRoute(
         path: '/login',
@@ -47,13 +60,10 @@ GoRouter createRouter(AuthBloc authBloc) {
       ),
       GoRoute(
         path: '/',
-        redirect: (context, state) {
-          final s = authBloc.state;
-          if (s is AuthAuthenticated && s.user.role == AppRoles.orgAdmin) {
-            return '/org';
-          }
-          return '/profile';
-        },
+        redirect: (context, state) => resolveAuthRedirect(
+          authState: authBloc.state,
+          location: '/',
+        ),
         builder: (context, state) => const SizedBox.shrink(),
       ),
       GoRoute(

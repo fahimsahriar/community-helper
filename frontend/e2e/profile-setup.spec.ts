@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { expectNoSecurityViolations, watchSecurity } from './helpers/security';
+
 const WEB = process.env['WEB_URL'] ?? 'http://localhost:4200';
 
 function uniqueEmail(prefix: string): string {
@@ -19,6 +21,7 @@ async function register(page: import('@playwright/test').Page, email: string, ro
 }
 
 test('volunteer register → profile setup → edit persists', async ({ page }) => {
+  const { violations } = watchSecurity(page);
   await register(page, uniqueEmail('volunteer'), 'volunteer');
 
   await page.goto(`${WEB}/profile`);
@@ -39,11 +42,14 @@ test('volunteer register → profile setup → edit persists', async ({ page }) 
   await page.reload();
   await expect(page.getByTestId('profile-edit-heading')).toBeVisible();
   await expect(page.getByTestId('volunteer-location')).toHaveValue('Dhaka');
+
+  expectNoSecurityViolations(violations);
 });
 
 test('org admin register → dashboard shows pending badge after registration', async ({
   page,
 }) => {
+  const { violations } = watchSecurity(page);
   await register(page, uniqueEmail('orgadmin'), 'org_admin');
 
   await page.goto(`${WEB}/org/dashboard`);
@@ -59,4 +65,6 @@ test('org admin register → dashboard shows pending badge after registration', 
 
   await expect(page.getByTestId('org-saved')).toContainText('Organization saved.');
   await expect(page.getByTestId('org-pending-badge')).toContainText('Pending verification');
+
+  expectNoSecurityViolations(violations);
 });
