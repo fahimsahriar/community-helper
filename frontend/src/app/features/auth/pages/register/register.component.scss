@@ -1,0 +1,33 @@
+.register-card {
+  max-width: 420px;
+  margin: 3rem auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.error {
+  color: var(--mat-sys-error, #ba1a1a);
+  margin: 0.5rem 0;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  opacity: 0.7;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid currentColor;
+}
+
+.switch {
+  margin-top: 1.25rem;
+  text-align: center;
+}
